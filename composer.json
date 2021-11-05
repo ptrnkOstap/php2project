@@ -1,0 +1,15 @@
+{
+  "name": "vendor_name/php2project",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Dmitriy",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "twig/twig": "3.0"
+  }
+}

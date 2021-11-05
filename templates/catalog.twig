@@ -1,0 +1,17 @@
+{% include 'layouts/main.twig' %}
+
+{% block content %}
+    <h2> Catalog </h2>
+    {# {{ dump(catalog) }} #}
+
+    {% for item in catalog %}
+        <div>
+            <div class="name_and_price">
+                <h3><a href="/?c=product&a=SingleProduct&id={{ item.id }}">{{ item.name }} </a></h3>
+                <p>price: {{ item.price }} &dollar;</p>
+            </div>
+            <button>Buy</button>
+        </div>
+    {% endfor %}
+
+{% endblock %}
