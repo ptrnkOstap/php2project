@@ -1,4 +1,5 @@
 <?php
+//HW6 заглушка
 
 use app\engine\Db;
 use app\models\{Cart, CartLine, Products, User};
