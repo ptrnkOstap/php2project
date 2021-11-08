@@ -1,0 +1,13 @@
+<h2>Product</h2>
+
+{# {{ dump(product) }} #}
+
+<div class="product_card">
+    <form action="/cart/add/" method="post">
+        <input type="text" name="id" value={{ product.id }} hidden>
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }} </p>
+        <p>{{ product.price }} </p>
+        <input type="submit" value="Buy">
+    </form>
+</div>

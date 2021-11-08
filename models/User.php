@@ -2,14 +2,15 @@
 
 namespace app\models;
 
-class User extends Model
+class User extends DBModel
 {
-    public $id;
-    public  $name;
-    public  $surname;
-    public  $email;
-    public  $password_hash;
+    protected $id;
+    protected  $name;
+    protected  $surname;
+    protected  $email;
+    protected  $password_hash;
 
+    protected $props = [];
 
     public function __construct( $name = null,
                                  $surname = null,

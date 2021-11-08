@@ -1,0 +1,15 @@
+<h2> Catalog </h2>
+{# {{ dump(catalog) }} #}
+
+    {% for item in catalog %}
+        <div class="name_and_price">
+            <form action="/cart/add/" method="post">
+                <input type="text" name="id" value={{ item.id }} hidden>
+                <input type="text" name="quantity" value="1" hidden>
+                <h3><a href="/product/card/?id={{ item.id }}">{{ item.name }}</a></h3>
+                <p>price: {{ item.price }} &dollar;</p>
+                <button type="submit">Купить</button>
+            </form>
+        </div>
+    {% endfor %}
+

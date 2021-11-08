@@ -6,8 +6,11 @@ class Autoload
 {
     public function loadClass($className)
     {
-        $path = ".." . stristr($className, "\\") . ".php"; //отрезает по первому слешу
-        include $path;
+        $filename = str_replace(['app\\', '\\'], [ROOT . DS, DS], $className) . ".php";
+
+        if (file_exists($filename)) {
+            include $filename;
+        }
     }
 }
 
