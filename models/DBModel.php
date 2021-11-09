@@ -39,9 +39,6 @@ abstract class DBModel extends Model
         }
         $sql .= " (`" . implode("`, `", $keys) . "`)"; //добавляем поля таблицы
         $sql .= " VALUES (:" . implode(", :", $keys) . ")"; //
-        var_dump($sql);
-        var_dump($keys);
-        var_dump($values);
         var_dump(array_combine($keys, $values));
         Db::getInstance()->execute($sql, array_combine($keys, $values));
         $this->id = Db::getInstance()->lastInsertId();
@@ -54,25 +51,28 @@ abstract class DBModel extends Model
         $values = [];
         $columns = [];
         foreach ($this->props as $key) {
+            var_dump($key);
             $values["{$key}"] = $this->$key;
             $columns[] .= "`{$key}` = :{$key}";
         }
 
         $columns = implode(', ', $columns);
         $values['id'] = $this->id;
-
+//        var_dump($columns);
+//        var_dump($values);
         $sql = "UPDATE " . static::getTableName() . " SET {$columns} WHERE id=:id";
         Db::getInstance()->execute($sql, $values);
         $values = [];
         echo 'updated';
     }
 
-    public function delete($id = null)
+    public function delete()
     {
-//        var_dump($this->id . '- from delete');
-        $prodId = $id ?? $this->id;
-        $sql = "DELETE FROM " . static::getTableName() . " WHERE id=:id";
-        Db::getInstance()->execute($sql, ['id' => $prodId]);
+
+        $tableName = static::getTableName();
+        $sql = "DELETE FROM {$tableName} WHERE id = :id";
+        echo $sql;
+        return Db::getInstance()->execute($sql, ['id' => $this->id]);
     }
 
     public function save()
@@ -82,5 +82,12 @@ abstract class DBModel extends Model
         else {
             echo 'nothing to insert or update';
         }
+    }
+
+    public static function getCountWhere($name, $value)
+    {
+        $tableName = static::getTableName();
+        $sql = "SELECT count(id) as count FROM {$tableName} WHERE `{$name}`=:value";
+        return Db::getInstance()->queryOne($sql, ['value' => $value])['count'];
     }
 }

@@ -10,11 +10,13 @@ class Controller
     protected $defaultAction = 'index';
     private $layout = 'main';
     private $useLayout = true;
+    protected $session_id; //определяется в конструкторе Controller
 
     protected $render;
 
     public function __set($name, $value)
     {
+
         $this->$name = $value;
     }
 
@@ -26,6 +28,7 @@ class Controller
     public function __construct(IRenderer $render)
 
     {
+        $this->session_id = session_id();
         $this->render = $render;
     }
 

@@ -15,11 +15,10 @@ class Carts extends DBModel
 
 
     protected $props = [
-        'session_id' => false,
-        'product_id' => false
     ];
 
-    public function __construct($price, $session_id = null, $product_id = null, $quantity = 1, $user_id = null)
+
+    public function __construct($price=null, $session_id = null, $product_id = null, $quantity = 1, $user_id = null)
     {
         $this->price = $price;
         $this->session_id = $session_id;
@@ -28,22 +27,22 @@ class Carts extends DBModel
         $this->user_id = $user_id;
     }
 
-    public
-    static function getCart($session_id)
+    public static function getCart($session_id)
     {
         $sql = "SELECT 
+                    c.id cart_line_id,
                     p.id prod_id,
                     p.name,
                     p.description,
-                    p.price
+                    p.price,
+                    c.quantity quantity
                 FROM `carts` c INNER JOIN `products` p ON c.product_id=p.id
                 WHERE `session_id` = :session_id";
 
         return Db::getInstance()->queryAll($sql, ['session_id' => $session_id]);
     }
 
-    public
-    static function getTableName()
+    public static function getTableName()
     {
         return 'carts';
     }
