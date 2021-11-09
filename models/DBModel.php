@@ -90,4 +90,11 @@ abstract class DBModel extends Model
         $sql = "SELECT count(id) as count FROM {$tableName} WHERE `{$name}`=:value";
         return Db::getInstance()->queryOne($sql, ['value' => $value])['count'];
     }
+
+    public static function getOneWhere($name, $value)
+    {
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM {$tableName} WHERE `{$name}`=:value";
+        return Db::getInstance()->queryOneObject($sql, ['value' => $value], static::class);
+    }
 }

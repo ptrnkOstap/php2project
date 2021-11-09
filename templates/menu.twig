@@ -1,3 +1,16 @@
+{#{{ dump(menu) }}#}
+{% if isAuth %}
+    Добро пожаловать  <a href="/auth/logout/">[Выход]</a>
+{% else %}
+    <form action="/auth/login/" method="post">
+        <input type="text" name="login" placeholder="Логин" value="example@mail.ru">
+        <input type="text" name="pass" placeholder="Пароль" value="winkwink">
+        <input type="submit" name="submit" value="Войти">
+    </form>
+{% endif %}<br>
+
 <a href="/">Main</a>
 <a href="/product/catalog">Catalog </a>
-<a href="/cart">Cart<div style="display: inline-block" id="count">( )</div></a><br>
+<a href="/cart">Cart
+    <div style="display: inline-block" id="count">( )</div>
+</a><br>

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\interfaces\IRenderer;
+use app\models\{User, Carts};
 
 class Controller
 {
@@ -46,7 +47,11 @@ class Controller
     {
         if ($this->useLayout) {
             return $this->renderTemplate('layouts/' . $this->layout, [
-                'menu' => $this->renderTemplate('menu'),
+                'menu' => $this->renderTemplate('menu', [
+                    'isAuth' => User::isAuth(),
+                    'username' => User::getName(),
+                    'count' => Carts::getCountWhere('session_id', session_id()),
+                ]),
                 'content' => $this->renderTemplate($template, $params)
             ]);
         } else {

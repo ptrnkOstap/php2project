@@ -23,8 +23,8 @@ $actionName = $request->getActionName();
 $controllerClass = CONTROLLER_NAMESPACE . ucfirst($controllerName) . "Controller";
 
 if (class_exists($controllerClass)) {
-    var_dump($controllerClass);
-    var_dump($actionName);
+//    var_dump($controllerClass);
+//    var_dump($actionName);
     $controller = new $controllerClass(new TwigRender);
     $controller->runAction($actionName);
 } else {
