@@ -25,12 +25,9 @@ abstract class DBModel extends Model
 
     public function insert()
     {
-//        var_dump(static::getTableName());
         $sql = "INSERT INTO " . static::getTableName();
         $keys = [];
         $values = [];
-
-//        var_dump($this);
 
         foreach ($this as $key => $value) {
             if ($key === 'id' || $key === 'props') continue;
@@ -39,7 +36,7 @@ abstract class DBModel extends Model
         }
         $sql .= " (`" . implode("`, `", $keys) . "`)"; //добавляем поля таблицы
         $sql .= " VALUES (:" . implode(", :", $keys) . ")"; //
-        var_dump(array_combine($keys, $values));
+
         Db::getInstance()->execute($sql, array_combine($keys, $values));
         $this->id = Db::getInstance()->lastInsertId();
         return $this;
@@ -51,7 +48,6 @@ abstract class DBModel extends Model
         $values = [];
         $columns = [];
         foreach ($this->props as $key) {
-            var_dump($key);
             $values["{$key}"] = $this->$key;
             $columns[] .= "`{$key}` = :{$key}";
         }
@@ -63,7 +59,7 @@ abstract class DBModel extends Model
         $sql = "UPDATE " . static::getTableName() . " SET {$columns} WHERE id=:id";
         Db::getInstance()->execute($sql, $values);
         $values = [];
-        echo 'updated';
+        return $this;
     }
 
     public function delete()
@@ -71,7 +67,6 @@ abstract class DBModel extends Model
 
         $tableName = static::getTableName();
         $sql = "DELETE FROM {$tableName} WHERE id = :id";
-        echo $sql;
         return Db::getInstance()->execute($sql, ['id' => $this->id]);
     }
 

@@ -6,7 +6,7 @@ use app\engine\Db;
 
 class Carts extends DBModel
 {
-    protected $id; // в БД нет id Для cart
+    protected $id;
     protected $session_id;
     protected $product_id;
     protected $quantity;
@@ -31,6 +31,7 @@ class Carts extends DBModel
     {
         $sql = "SELECT 
                     c.id cart_line_id,
+                    c.session_id,
                     p.id prod_id,
                     p.name,
                     p.description,

@@ -29,10 +29,7 @@ class User extends DBModel
     public static function auth($login, $pass)
     {
 
-        //TODO проверить user на false
         $user = User::getOneWhere('email', $login);
-
-        //TODO захешируйте пароль
 
         //password_verify('123', $hash);
         if (password_verify($pass, $user->password_hash)) {

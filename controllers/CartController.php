@@ -32,13 +32,14 @@ class CartController extends Controller
     {
         $productId = (int)(new Request())->getParams()['id'];
         $unitPrice = (float)Products::getOne($productId)->price;
+
         $alreadyAdded = false;
 
         foreach ($this->cart as $cartLine) {
-            if ((int)$cartLine['prod_id'] === $productId) {
+            if ((int)$cartLine['prod_id'] === $productId) { //проверяем, есть ли уже такой артикул в корзине
                 $alreadyAdded = true;
-                $alterQuantity = Carts::getOne($cartLine['cart_line_id']);
-                $alterQuantity->quantity += 1;
+                $alterQuantity = Carts::getOne($cartLine['cart_line_id']); // этот код вызывается 1 раз, если в корзину
+                $alterQuantity->quantity += 1;  // добавляется уже существующий артикул
                 $alterQuantity->update();
             }
         }
@@ -47,7 +48,7 @@ class CartController extends Controller
         $response = [
             'success' => 'ok',
             'count' => Carts::getCountWhere('session_id', $this->session_id)];
-//        header("Location:/product/catalog");
+
         echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         die();
     }
@@ -56,16 +57,16 @@ class CartController extends Controller
     {
         $lineId = (int)(new Request())->getParams()['id'];
         $cartLine = Carts::getOne($lineId);
-        var_dump($cartLine);
-        $cartLine->delete();
+        if ($this->session_id === $cartLine->session_id) {
+            $cartLine->delete();
+        }
 
         $response = [
             'success' => 'ok',
             'count' => Carts::getCountWhere('session_id', $this->session_id)];
-//        header("Location:/product/catalog");
+
         echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         die();
-
     }
 
 

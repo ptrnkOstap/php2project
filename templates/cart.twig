@@ -11,14 +11,18 @@
 {# </form> #}
 {# <input style="margin-top:10px; border-top: 1px solid grey;" type="submit" value="Оформить заказ"> #}
 
-
+{% if cart is empty %}
+    <h3>It's empty</h3>
+{% else %}
     {% for item in cart %}
-        <input hidden type="text" name="id" value={{ item.prod_id }}>
-        <h3><a href="/product/card/?id={{ item.prod_id }}">{{ item.name }}</a></h3>
-        <p>price: {{ item.price }} &dollar;</p>
-        <p>quantity: <b>{{ item.quantity }}</b></p>
-        <button line_id={{ item.cart_line_id }} class="remove_cart_item">удалить товар</button>
+        <div id={{ item.cart_line_id }}>
+            <h3><a href="/product/card/?id={{ item.prod_id }}">{{ item.name }}</a></h3>
+            <p>price: {{ item.price }} &dollar;</p>
+            <p>quantity: <b>{{ item.quantity }}</b></p>
+            <button line_id={{ item.cart_line_id }} class="remove_cart_item">удалить товар</button>
+        </div>
     {% endfor %}
+{% endif %}
 
 <div>
     <button style="margin-top:10px; border-top: 1px solid grey;" type="submit">Оформить заказ</button>
@@ -29,11 +33,11 @@
     buttons.forEach((elem) => {
         elem.addEventListener('click', () => {
             let id = elem.getAttribute('line_id');
-            console.log('click ' + id);
             (
                 async () => {
                     const response = await fetch('/cart/delete/?id=' + id);
                     const answer = await response.json();
+                    document.getElementById(id).remove();
                     document.getElementById('count').innerText = answer.count;
                 }
             )();
