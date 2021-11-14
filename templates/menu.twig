@@ -1,4 +1,4 @@
-{#{{ dump(menu) }}#}
+{# {{ dump(menu) }} #}
 {% if isAuth %}
     Добро пожаловать  <a href="/auth/logout/">[Выход]</a>
 {% else %}
@@ -9,8 +9,10 @@
     </form>
 {% endif %}<br>
 
-<a href="/">Main</a>
-<a href="/product/catalog">Catalog </a>
-<a href="/cart">Cart
-    <div style="display: inline-block" id="count"></div>
-</a><br>
+<div class="nav_pane">
+    <a href="/">Main</a>
+    <a href="/product/catalog">Catalog </a>
+    <a href="/cart">Cart
+        <div style="display: inline-block" id="count"></div>
+    </a>
+</div>

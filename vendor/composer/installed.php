@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '0133060f4cd66aed1a024f4402b112a6b36cad76',
+        'reference' => 'cd0a6917f8c8b55f11d41c8d0a00e45e7512257b',
         'name' => 'vendor_name/php2project',
         'dev' => true,
     ),
@@ -388,7 +388,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '0133060f4cd66aed1a024f4402b112a6b36cad76',
+            'reference' => 'cd0a6917f8c8b55f11d41c8d0a00e45e7512257b',
             'dev_requirement' => false,
         ),
         'webmozart/assert' => array(
