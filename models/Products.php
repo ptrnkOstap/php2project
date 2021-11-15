@@ -3,14 +3,15 @@
 namespace app\models;
 
 
-class Products extends Model
+class Products extends DBModel
 {
-    public  $id;
-    public $name;
-    public $description;
-    public $price;
-    public $category_id;
+    protected $id = null;
+    protected $name;
+    protected $description;
+    protected $price;
+    protected $category_id;
 
+    protected $props = [];
 
     public function __construct($name = null,
                                 $description = null,
@@ -21,6 +22,11 @@ class Products extends Model
         $this->description = $description;
         $this->price = $price;
         $this->category_id = $category_id;
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->$name);
     }
 
 

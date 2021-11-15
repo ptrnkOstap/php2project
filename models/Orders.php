@@ -3,14 +3,15 @@
 namespace app\models;
 
 
-class Orders extends Model
+class Orders extends DBModel
 {
-    public $id;
-    public $user_id;
-    public $delivery_address;
-    public $status_id;
-    public $created_at;
+    protected $id;
+    protected $user_id;
+    protected $delivery_address;
+    protected $status_id;
+    protected $created_at;
 
+    protected $props = [];
 
     public function __construct($user_id = null,
                                 $delivery_address = null,

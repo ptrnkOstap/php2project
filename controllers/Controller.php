@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\interfaces\IRenderer;
+use app\models\{User, Carts};
 
 class Controller
 {
@@ -10,12 +11,25 @@ class Controller
     protected $defaultAction = 'index';
     private $layout = 'main';
     private $useLayout = true;
+    protected $session_id; //определяется в конструкторе Controller
 
-    private $render;
+    protected $render;
+
+    public function __set($name, $value)
+    {
+
+        $this->$name = $value;
+    }
+
+    public function __get($name)
+    {
+        return $this->$name;
+    }
 
     public function __construct(IRenderer $render)
 
     {
+        $this->session_id = session_id();
         $this->render = $render;
     }
 
@@ -31,27 +45,24 @@ class Controller
 
     public function render($template, $params = [])
     {
-       return $this->render->renderTemplate($template, $params);
+        if ($this->useLayout) {
+            return $this->renderTemplate('layouts/' . $this->layout, [
+                'menu' => $this->renderTemplate('menu', [
+                    'isAuth' => User::isAuth(),
+                    'username' => User::getName(),
+                    'count' => Carts::getCountWhere('session_id', session_id()),
+                ]),
+                'content' => $this->renderTemplate($template, $params)
+            ]);
+        } else {
+            return $this->renderTemplate($template, $params);
+        }
+
     }
-//    public function render($template, $params = [])
-//    {
-//        if ($this->useLayout) {
-//            return $this->renderTemplate('layouts\\' . $this->layout, [
-//                'menu' => $this->renderTemplate('menu', $params),
-//                'content' => $this->renderTemplate($template, $params)
-//            ]);
-//        } else {
-//            return $this->renderTemplate($template, $params);
-//        }
+
 //
-//    }
-//
-//    public function renderTemplate($template, $params = [])
-//    {
-//        ob_start();
-//        extract($params);
-//        $templatePath = VIEWS_DIR . $template . ".php"; // default - VIEWS_DIR, twig TWIG_TEMPLATES_DIR
-//        include $templatePath;
-//        return ob_get_clean();
-//    }
+    public function renderTemplate($template, $params = [])
+    {
+        return $this->render->renderTemplate($template, $params);
+    }
 }

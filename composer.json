@@ -10,6 +10,16 @@
     }
   ],
   "require": {
-    "twig/twig": "3.0"
+    "twig/twig": "3.3.3",
+    "ext-json": "*",
+    "symfony/asset": "^5.3",
+    "symfony/http-foundation": "^5.3",
+    "phpunit/phpunit": "^9.5",
+    "symfony/twig-bridge": "^5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": ""
+    }
   }
 }
