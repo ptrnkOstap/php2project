@@ -78,6 +78,8 @@ class CartController extends Controller
         $order = new Order($orderData['name'], $orderData['address'], App::call()->session->getId(), $orderData['email']);
 
         App::call()->ordersRepository->insert($order);
+        App::call()->session->destroy();
+        App::call()->session->regenerate();
 
         $response = [
             'success' => 'ok',
