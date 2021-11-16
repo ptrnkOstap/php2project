@@ -12,9 +12,9 @@ use app\traits\TSingletone;
 /**
  * Class App
  * @property Request $request
- * @property BasketRepository $basketRepository
+ * @property CartsRepository $cartsRepository
  * @property UserRepository $usersRepository
- * @property ProductRepository $productRepository
+ * @property ProductsRepository $productsRepository
  * @property Session $session
  * @property Db $db
  */
@@ -36,14 +36,15 @@ class App
         return static::getInstance();
     }
 
-    public function runController() {
+    public function runController()
+    {
         $this->controller = $this->request->getControllerName() ?: 'product';
         $this->action = $this->request->getActionName();
 
         $controllerClass = $this->config['controllers_namespaces'] . ucfirst($this->controller) . "Controller";
 
         if (class_exists($controllerClass)) {
-            $controller = new $controllerClass(new TwigRender() );
+            $controller = new $controllerClass(new TwigRender());
             $controller->runAction($this->action);
         } else {
             echo "404";
@@ -57,7 +58,8 @@ class App
         $this->runController();
     }
 
-    public function createComponent($name) {
+    public function createComponent($name)
+    {
         if (isset($this->config['components'][$name])) {
             $params = $this->config['components'][$name];
             $class = $params['class'];

@@ -6,13 +6,15 @@ use \app\models\Entity;
 
 class Products extends Entity
 {
-    protected $id = null;
-    protected $name;
-    protected $description;
-    protected $price;
-    protected $category_id;
+    public $id = null;
+    public $name;
+    public $description;
+    public $price;
+    public $category_id;
 
-    protected $props = [];
+    protected $props = [
+
+    ];
 
     public function __construct($name = null,
                                 $description = null,

@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\engine\App;
 use app\controllers\Controller;
 use app\engine\Request;
-use app\models\entities\{Carts, Products};
+use app\models\entities\{Carts, Order, Products};
 
 class CartController extends Controller
 {
@@ -69,6 +69,24 @@ class CartController extends Controller
 
         echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         die();
+    }
+
+
+    public function actionPlaceOrder()
+    {
+        $orderData = App::call()->request->getParams();
+        $order = new Order($orderData['name'], $orderData['address'], App::call()->session->getId(), $orderData['email']);
+
+        App::call()->ordersRepository->insert($order);
+
+        $response = [
+            'success' => 'ok',
+            'message' => 'Thank you. Order #' . App::call()->db->LastInsertId() . ' on its way to you.'
+        ];
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        header('location: /cart/index');
+        die();
+
     }
 
 

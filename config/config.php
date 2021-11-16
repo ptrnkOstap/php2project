@@ -19,6 +19,7 @@ use app\engine\Session;
 use app\models\repositories\CartsRepository;
 use app\models\repositories\ProductsRepository;
 use app\models\repositories\UserRepository;
+use app\models\repositories\OrdersRepository;
 
 return [
     'root' => dirname(__DIR__),
@@ -37,6 +38,9 @@ return [
         ],
         'request' => [
             'class' => Request::class
+        ],
+        'ordersRepository' => [
+            'class' => OrdersRepository::class
         ],
         'cartsRepository' => [
             'class' => CartsRepository::class

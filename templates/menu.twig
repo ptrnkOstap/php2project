@@ -1,4 +1,4 @@
-{# {{ dump(menu) }} #}
+
 {% if isAuth %}
     Добро пожаловать  <a href="/auth/logout/">[Выход]</a>
 {% else %}
@@ -15,4 +15,5 @@
     <a href="/cart">Cart
         <div style="display: inline-block" id="count"></div>
     </a>
+    <a class="admin_area" href="/admin/">Admin area</a>
 </div>

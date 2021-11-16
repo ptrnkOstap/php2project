@@ -9,7 +9,7 @@ class Request
     protected $actionName;
 
     protected $method;
-    protected $params = [];
+    public $params = [];
 
 
     public function __construct()
@@ -27,7 +27,12 @@ class Request
         $this->controllerName = $url[1];
         $this->actionName = $url[2];
 
-        $this->params = $_REQUEST;
+        $data = $_REQUEST;
+        if (!is_null($data)) {
+            foreach ($data as $key => $value) {
+                $this->params[$key] = $value;
+            }
+        }
     }
 
 

@@ -41,11 +41,13 @@ abstract class Repository
         $sql .= " (`" . implode("`, `", $keys) . "`)"; //добавляем поля таблицы
         $sql .= " VALUES (:" . implode(", :", $keys) . ")"; //
 
+
         App::call()->db->execute($sql, array_combine($keys, $values));
         $entity->id = App::call()->db->lastInsertId();
 
         return $this;
     }
+
 
     public function update(Entity $entity)
     {

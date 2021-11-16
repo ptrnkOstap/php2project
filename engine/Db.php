@@ -3,9 +3,10 @@
 namespace app\engine;
 
 
-
 class Db
 {
+
+    protected $config;
 
     private $conection = null;
 

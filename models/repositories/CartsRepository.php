@@ -15,7 +15,7 @@ class CartsRepository extends Repository
     }
 
 
-    public static function getCart($session_id)
+    public function getCart($session_id)
     {
         $sql = "SELECT 
                     c.id cart_line_id,

@@ -21,7 +21,7 @@ class ProductController extends Controller
 
     public function actionCard()
     {
-        $id = $_GET['id'];
+        $id = App::call()->request->getParams()['id'];
         $product = App::call()->productRepository->getOne($id);
         echo $this->render('catalog/card', ['product' => $product]);
     }

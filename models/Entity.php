@@ -10,9 +10,13 @@ abstract class Entity
 
     public function __set($name, $value)
     {
+//        if (!is_null($value) | !empty($value)) {
         array_push($this->props, $name);
+//        }
+
         $this->$name = $value;
     }
+
 
     public function __get($name)
     {

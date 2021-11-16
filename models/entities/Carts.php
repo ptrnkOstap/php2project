@@ -13,7 +13,8 @@ class Carts extends Entity
     public $price;
     public $user_id;
 
-    public $props = [
+    protected $props = [
+
     ];
 
     public function __construct($price = null, $session_id = null, $product_id = null, $quantity = 1, $user_id = null)

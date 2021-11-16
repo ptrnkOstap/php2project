@@ -1,0 +1,25 @@
+<h2>Admin area</h2>
+{# {{ dump(orders) }} #}
+<div class="content_wrapper">
+    <div class="content_header">
+        <div class="order_line_id_h">Order ID</div>
+        <div class="order_line_user">User ID</div>
+        <div class="order_line_order_status">Order status</div>
+        <div class="order_line_address">Delivery address</div>
+        <div class="order_line_created_at">Posted on</div>
+    </div>
+    {% for order in orders %}
+        <div class="order_line">
+            <div class="order_line_id">
+                <a class="view_order_link" href="/admin/order/?id={{ order.order_id }}">View</a>
+                <p>{{ order.order_id }}</p>
+            </div>
+            <div class="order_line_user">{{ order.user_id }}</div>
+            <div class="order_line_order_status">{{ order.status_id }}</div>
+            <div class="order_line_address">{{ order.address }}</div>
+            <div class="order_line_created_at">{{ order.created_at }}</div>
+        </div>
+    {% endfor %}
+</div>
+
+
