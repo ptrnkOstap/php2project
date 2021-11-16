@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
+use app\engine\App;
 use app\interfaces\IRenderer;
-use app\models\{User, Carts};
+use app\models\entities\{User, Carts};
+use app\models\repositories\{UserRepository, CartsRepository};
 
 class Controller
 {
@@ -29,7 +31,7 @@ class Controller
     public function __construct(IRenderer $render)
 
     {
-        $this->session_id = session_id();
+        $this->session_id = App::call()->session->getId();
         $this->render = $render;
     }
 
@@ -48,9 +50,9 @@ class Controller
         if ($this->useLayout) {
             return $this->renderTemplate('layouts/' . $this->layout, [
                 'menu' => $this->renderTemplate('menu', [
-                    'isAuth' => User::isAuth(),
-                    'username' => User::getName(),
-                    'count' => Carts::getCountWhere('session_id', session_id()),
+                    'isAuth' => App::call()->userRepository->isAuth(),
+                    'username' => App::call()->userRepository->getName(),
+                    'count' => App::call()->cartsRepository->getCountWhere('session_id', session_id()),
                 ]),
                 'content' => $this->renderTemplate($template, $params)
             ]);

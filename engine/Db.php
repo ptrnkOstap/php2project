@@ -2,23 +2,22 @@
 
 namespace app\engine;
 
-use app\traits\TSingletone;
 
 
 class Db
 {
-    use TSingletone;
-
-    private $config = [
-        'driver' => 'mysql',
-        'host' => 'localhost:3306',
-        'login' => 'mysql',
-        'password' => '',
-        'database' => 'mystore',
-        'charset' => 'utf8'
-    ];
 
     private $conection = null;
+
+    public function __construct($driver = null, $host = null, $login = null, $password = null, $database = null, $charset = "utf8")
+    {
+        $this->config['driver'] = $driver;
+        $this->config['host'] = $host;
+        $this->config['login'] = $login;
+        $this->config['password'] = $password;
+        $this->config['database'] = $database;
+        $this->config['charset'] = $charset;
+    }
 
     private function getConnection()
     {

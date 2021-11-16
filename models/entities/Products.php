@@ -1,9 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\models\entities;
 
+use \app\models\Entity;
 
-class Products extends DBModel
+class Products extends Entity
 {
     protected $id = null;
     protected $name;
@@ -28,12 +29,4 @@ class Products extends DBModel
     {
         return isset($this->$name);
     }
-
-
-    public static function getTableName()
-    {
-        return 'products';
-    }
-
-
 }

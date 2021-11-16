@@ -3,7 +3,7 @@
 namespace app\models;
 
 
-class Orders extends DBModel
+class Orders extends Repository
 {
     protected $id;
     protected $user_id;

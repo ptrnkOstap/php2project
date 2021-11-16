@@ -3,10 +3,9 @@
 namespace app\models;
 
 use app\engine\Db;
-use app\interfaces\IModel;
 
 
-abstract class Model implements IModel
+abstract class Entity
 {
 
     public function __set($name, $value)

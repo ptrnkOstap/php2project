@@ -2,18 +2,18 @@
 
 namespace app\controllers;
 
-use app\engine\Request;
+use app\engine\App;
 use app\models\User;
 
 class AuthController extends Controller
 {
     public function actionLogin()
     {
-        $login = (new Request())->getParams()['login'];
-        $pass = (new Request())->getParams()['pass'];
+        $login = App::call()->request->getParams()['login'];
+        $pass = App::call()->request->getParams()['pass'];
 
 
-        if (User::auth($login, $pass)) {
+        if (App::call()->userRepository->auth($login, $pass)) {
             header("Location:" . $_SERVER['HTTP_REFERER']);
             die();
         } else {

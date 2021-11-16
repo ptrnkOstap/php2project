@@ -2,17 +2,17 @@
 
 namespace app\controllers;
 
+use app\engine\App;
 use app\controllers\Controller;
 use app\engine\Request;
-use app\models\Carts;
-use app\models\Products;
+use app\models\entities\{Carts, Products};
 
 class CartController extends Controller
 {
     public function __get($name)
     {
         if ($name === 'cart' && (!isset($this->cart))) {
-            $this->cart = Carts::getCart($this->session_id);
+            $this->cart = App::call()->cartsRepository->getCart($this->session_id);
         }
         return $this->$name;
     }
@@ -30,24 +30,26 @@ class CartController extends Controller
 
     public function actionAdd()
     {
-        $productId = (int)(new Request())->getParams()['id'];
-        $unitPrice = (float)Products::getOne($productId)->price;
-
+        $productId = (int)App::call()->request->getParams()['id'];
+        $unitPrice = (float)App::call()->productRepository->getOne($productId)->price;
         $alreadyAdded = false;
 
         foreach ($this->cart as $cartLine) {
             if ((int)$cartLine['prod_id'] === $productId) { //проверяем, есть ли уже такой артикул в корзине
                 $alreadyAdded = true;
-                $alterQuantity = Carts::getOne($cartLine['cart_line_id']); // этот код вызывается 1 раз, если в корзину
+                $alterQuantity = App::call()->cartsRepository->getOne($cartLine['cart_line_id']); // этот код вызывается 1 раз, если в корзину
                 $alterQuantity->quantity += 1;  // добавляется уже существующий артикул
-                $alterQuantity->update();
+                App::call()->cartsRepository->update($alterQuantity);
             }
         }
-        $alreadyAdded ?: (new Carts($unitPrice, $this->session_id, $productId))->insert();
+        if ($alreadyAdded == false) {
+            $newCartLine = new Carts($unitPrice, $this->session_id, $productId);
+            App::call()->cartsRepository->insert($newCartLine);
+        }
 
         $response = [
             'success' => 'ok',
-            'count' => Carts::getCountWhere('session_id', $this->session_id)];
+            'count' => App::call()->cartsRepository->getCountWhere('session_id', $this->session_id)];
 
         echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         die();
@@ -55,15 +57,15 @@ class CartController extends Controller
 
     public function actionDelete()
     {
-        $lineId = (int)(new Request())->getParams()['id'];
-        $cartLine = Carts::getOne($lineId);
+        $lineId = (int)App::call()->request->getParams()['id']; // проверить
+        $cartLine = App::call()->cartsRepository->getOne($lineId);
         if ($this->session_id === $cartLine->session_id) {
-            $cartLine->delete();
+            App::call()->cartsRepository->delete($cartLine);
         }
 
         $response = [
             'success' => 'ok',
-            'count' => Carts::getCountWhere('session_id', $this->session_id)];
+            'count' => App::call()->cartsRepository->getCountWhere('session_id', $this->session_id)];
 
         echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         die();
