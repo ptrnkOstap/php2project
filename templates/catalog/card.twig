@@ -1,0 +1,26 @@
+<h2>Product</h2>
+
+{# {{ dump(product) }} #}
+
+<div class="product_card">
+    <input type="text" name="id" value={{ product.id }} hidden>
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }} </p>
+    <p>{{ product.price }} </p>
+    <button prod_id={{ product.id }} type="submit" value="Buy">buy</button>
+</div>
+<script>
+    let buttons = document.querySelectorAll('.buy');
+    buttons.forEach((elem) => {
+        elem.addEventListener('click', () => {
+            let id = elem.getAttribute('prod_id');
+            (
+                async () => {
+                    const response = await fetch('/cart/add/?id=' + id);
+                    const answer = await response.json();
+                    document.getElementById('count').innerText = answer.count;
+                }
+            )();
+        });
+    });
+</script>

@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
-use app\controllers\Controller;
-use app\models\Products;
+use app\engine\App;
+
 
 class ProductController extends Controller
 {
@@ -15,18 +15,16 @@ class ProductController extends Controller
 
     public function actionCatalog()
     {
-        $catalog = Products::getAll();
-        echo $this->render('catalog', ['catalog' => $catalog]);
+        $catalog = App::call()->productRepository->getAll();
+        echo $this->render('catalog/index', ['catalog' => $catalog]);
     }
 
-    public function actionSingleProduct()
+    public function actionCard()
     {
-        $id = $_GET['id'];
-        $product = Products::getOne($id);
-//        var_dump($product);
-        echo $this->render('SingleProduct', ['product' => $product]);
+        $id = App::call()->request->getParams()['id'];
+        $product = App::call()->productRepository->getOne($id);
+        echo $this->render('catalog/card', ['product' => $product]);
     }
-
 
 
 }

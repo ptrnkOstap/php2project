@@ -1,3 +1,63 @@
-{% include 'layouts/main.twig' %}
+<h2> Your cart </h2>
 
-The cart is empty
+{% if cart is empty %}
+    <h3>It's empty</h3>
+{% else %}
+    <div class="cart_content">
+        {% for item in cart %}
+            <div class="cart_line" id={{ item.cart_line_id }}>
+                <h3><a href="/product/card/?id={{ item.prod_id }}">{{ item.name }}</a></h3>
+                <p>price: {{ item.price }} &dollar;</p>
+                <p>quantity: <b>{{ item.quantity }}</b></p>
+                <button line_id={{ item.cart_line_id }} class="remove_cart_item">удалить товар</button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<div id="order_from">
+    {% if cart is not empty %}
+        <form id="create_order_form" action="cart/placeorder/" method="post"
+              style="font-family: Arial, sans-serif;
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          width: 300px;">
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name">
+            <label for="address">Your address</label>
+            <input type="text" id="address" name="address">
+            <input id="place_order" type="submit" value="Оформить заказ">
+        </form>
+    {% endif %}
+</div>
+<script>
+    let remove = document.querySelectorAll('.remove_cart_item');
+    let placeOrder = document.getElementById('place_order');
+
+    remove.forEach((elem) => {
+        elem.addEventListener('click', () => {
+            let id = elem.getAttribute('line_id');
+            (
+                async () => {
+                    const response = await fetch('/cart/delete/?id=' + id);
+                    const answer = await response.json();
+                    document.getElementById(id).remove();
+                    document.getElementById('count').innerText = answer.count;
+                }
+            )();
+        });
+    });
+
+    placeOrder.addEventListener('click', () => {
+        (
+            async () => {
+                const response = await fetch('/cart/placeOrder');
+                const answer = await response.json();
+                document.getElementById('create_order_form').remove();
+                document.getElementById('order_from').innerText = answer.message;
+            }
+        )();
+    });
+</script>
